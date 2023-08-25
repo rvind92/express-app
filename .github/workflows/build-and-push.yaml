@@ -42,24 +42,12 @@ jobs:
           cat ./manifests/deployment.yaml
 
           git add manifests/deployment.yaml
-          git commit -m "Updated deployment.yaml with latest build tag"
+          git commit -am "Updated deployment.yaml with latest build tag"
           git push
 
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
             
           az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
-  
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
-          
-      - name: Create Pull Request
-        if: github.event_name == 'pull-request'
-        run: |
-          gh pr create --base $GITHUB_BASE_REF --head $GITHUB_HEAD_REF --title "deployment '$DEPLOY_ID'" --body "Deploy to dev"
 
           
 
