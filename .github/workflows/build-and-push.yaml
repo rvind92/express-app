@@ -34,11 +34,18 @@ jobs:
       - name: Build and Push Docker Image
         if: github.event_name == 'push'
         run: |
-          az acr login --name ${{ secrets.AZ_ACR_NAME }}
+          git config --local user.name actions-user
+          git config --local user.email "actions@github.com"
 
           sed -i "s/{COMMIT_SHA}/${{ github.sha }}/g" ./manifests/deployment.yaml
-  
+
           cat ./manifests/deployment.yaml
+
+          git add manifests/deployment.yaml
+          git commit -m "Updated deployment.yaml with latest build tag"
+          git push
+
+          az acr login --name ${{ secrets.AZ_ACR_NAME }}
             
           az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
   
