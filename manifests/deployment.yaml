@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: express-app
-          image: collectiusacr.azurecr.io/express-app:961b12e7a4f2bc15c969a9dbfb2995c6b445853e
+          image: collectiusacr.azurecr.io/express-app:4418994fe2fef9a68c117467dfa7e74e70a9a97e
           imagePullPolicy: Always
           resources:
             limits:
