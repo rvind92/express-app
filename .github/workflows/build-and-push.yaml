@@ -34,28 +34,24 @@ jobs:
       - name: Build and Push Docker Image
         if: github.event_name == 'push'
         run: |
-          echo "SHA Value 2 ->"${{ github.sha }}
-
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
-          
-          az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
 
           sed -i "s/{COMMIT_SHA}/${{ github.sha }}/g" ./manifests/deployment.yaml
-
-          *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+  
+          cat ./manifests/deployment.yaml
+            
+          az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
+  
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: output
           })
-
-          cat ./manifests/deployment.yaml
-        
+          
       - name: Create Pull Request
         if: github.event_name == 'pull-request'
         run: |
-          echo "SHA Value 1 ->"${{ github.sha }}
           gh pr create --base $GITHUB_BASE_REF --head $GITHUB_HEAD_REF --title "deployment '$DEPLOY_ID'" --body "Deploy to dev"
 
           
