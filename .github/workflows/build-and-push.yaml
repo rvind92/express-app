@@ -34,3 +34,7 @@ jobs:
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
           
           az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
+
+          sed -i "s/{COMMIT_SHA}/${{ github.sha }}/g" ./manifests/deployment.yaml
+
+          cat ./manifests/deployment.yaml
