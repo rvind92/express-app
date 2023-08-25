@@ -32,15 +32,8 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and Push Docker Image
-        
+        if: github.event_name == 'push'
         run: |
-          echo "GITHUB_REF -> "$GITHUB_REF
-          echo "GITHUB_HEAD_REF -> "$GITHUB_HEAD_REF
-          echo "GITHUB_BASE_REF -> "$GITHUB_BASE_REF
-          echo "GITHUB_REF_NAME -> "$GITHUB_REF_NAME
-
-          echo "Hello, World!!!"
-
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
           
           az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
@@ -56,6 +49,11 @@ jobs:
           })
 
           cat ./manifests/deployment.yaml
+        
+      - name: Create Pull Request
+        if: github.event_name == 'pull-request'
+        run: |
+          gh pr create --base $GITHUB_BASE_REF --head $GITHUB_HEAD_REF --title "deployment '$DEPLOY_ID'" --body "Deploy to dev"
 
           
 
