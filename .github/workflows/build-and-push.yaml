@@ -15,6 +15,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+      GITHUB_TOKEN: ${{ secrets.PAT }}
 
     defaults:
       run:
@@ -30,6 +31,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and Push Docker Image
+        if: github.event_name == 'push'
         run: |
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
           
@@ -38,3 +40,10 @@ jobs:
           sed -i "s/{COMMIT_SHA}/${{ github.sha }}/g" ./manifests/deployment.yaml
 
           cat ./manifests/deployment.yaml
+
+          echo GITHUB_REF -> $GITHUB_REF
+          echo GITHUB_HEAD_REF -> $GITHUB_HEAD_REF
+          echo GITHUB_BASE_REF -> $GITHUB_BASE_REF
+          echo GITHUB_REF_NAME -> $GITHUB_REF_NAME
+
+      
