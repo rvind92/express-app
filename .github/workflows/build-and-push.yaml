@@ -42,7 +42,7 @@ jobs:
           cat ./manifests/deployment.yaml
 
           git add manifests/deployment.yaml
-          git commit -am "Updated deployment.yaml with latest build tag"
+          git commit -am "Updated deployment.yaml with latest build tag : ${{ github.sha }}"
           git push
 
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
