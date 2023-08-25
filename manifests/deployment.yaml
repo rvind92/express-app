@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: express-app
-          image: collectiusacr.azurecr.io/express-app:{COMMIT_SHA}
+          image: collectiusacr.azurecr.io/express-app:LATEST
           imagePullPolicy: Never
           resources:
             limits:
