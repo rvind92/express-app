@@ -38,7 +38,7 @@ jobs:
           echo "GITHUB_BASE_REF -> "$GITHUB_BASE_REF
           echo "GITHUB_REF_NAME -> "$GITHUB_REF_NAME
 
-          echo "Hello, World!"
+          echo "Hello, World!!!"
 
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
           
