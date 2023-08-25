@@ -34,11 +34,13 @@ jobs:
       - name: Build and Push Docker Image
         if: github.event_name == 'push'
         run: |
+          echo "GITHUB SHA -> ${{ github.sha }}"
+
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
           
           az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
 
-          sed -i "s/{COMMIT_SHA}/${{ github.sha }}/g" ./manifests/deployment.yaml
+          # sed -i "s/{COMMIT_SHA}/${{ github.sha }}/g" ./manifests/deployment.yaml
 
           *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
           github.rest.issues.createComment({
