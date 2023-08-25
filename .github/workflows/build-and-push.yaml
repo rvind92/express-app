@@ -34,6 +34,8 @@ jobs:
       - name: Build and Push Docker Image
         if: github.event_name == 'push'
         run: |
+          echo "SHA Value 2 ->"${{ github.sha }}
+
           az acr login --name ${{ secrets.AZ_ACR_NAME }}
           
           az acr build --image express-app:${{ github.sha }} --registry ${{ secrets.AZ_ACR_NAME }} .
@@ -53,6 +55,7 @@ jobs:
       - name: Create Pull Request
         if: github.event_name == 'pull-request'
         run: |
+          echo "SHA Value 1 ->"${{ github.sha }}
           gh pr create --base $GITHUB_BASE_REF --head $GITHUB_HEAD_REF --title "deployment '$DEPLOY_ID'" --body "Deploy to dev"
 
           
