@@ -32,7 +32,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Build and Push Docker Image
-        if: github.event_name == 'push'
+        
         run: |
           echo "GITHUB_REF -> "$GITHUB_REF
           echo "GITHUB_HEAD_REF -> "$GITHUB_HEAD_REF
