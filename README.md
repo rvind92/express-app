@@ -14,5 +14,5 @@ To make changes and commit this app to be built and deployed:
 5. Visit https://github.com/rvind92/express-app/pulls and approve the PR to kick the build and push process. You can view the workflox execution at https://github.com/rvind92/express-app/actions.
 6. Once completed, visit https://github.com/rvind92/express-app/pulls again and approve for merging the code.
 7. Visit the ArgoCD UI at localhost:80 or https://20.14.29.149 and click on express-app application in the application list.
-8. Observe the ArgoCD agent in updating the state of the application. If it is not updating, then manually sync the application by click on the Sync Apps button.
+8. Observe the ArgoCD agent in updating the state of the application. If it is not updating, then manually trigger the sync for application by click on the Sync Apps button.
 9. Once the state is healthy, open your browser and visit localhost:3000 or https://20.14.29.149:3000.
